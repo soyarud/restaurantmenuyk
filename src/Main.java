@@ -10,7 +10,7 @@ public class Main {
         // 2. CREATE MENU ITEMS (creating multiple objects)
         System.out.println("\n--- Creating menu items ---");
         MenuItem pizza = new MenuItem(1, "Margherita Pizza",
-                "Classic pizza with tomato sauce and mozzarella", 12.998, "Main");
+                "Classic pizza with tomato sauce and mozzarella", 12.996, "Main");
         MenuItem pasta = new MenuItem(2, "Spaghetti Carbonara",
                 "Pasta with eggs, cheese, and pancetta", 14.50, "Main");
         MenuItem salad = new MenuItem(3, "Caesar Salad",
