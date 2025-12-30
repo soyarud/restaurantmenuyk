@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Restaurant class represents a restaurant with menu and orders
@@ -62,5 +65,30 @@ public class Restaurant {
 
     public List<Order> getOrders() {
         return orders;
+    }
+    public List<MenuItem> searchByName(String keyword) {
+        return menu.stream()
+                .filter(item -> item.getName().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<MenuItem> filterByCategory(String category) {
+        return menu.stream()
+                .filter(item -> item.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+    }
+
+    public List<MenuItem> filterByMaxPrice(double maxPrice) {
+        return menu.stream()
+                .filter(item -> item.getPrice() <= maxPrice)
+                .collect(Collectors.toList());
+    }
+
+    public void sortMenuByPrice() {
+        menu.sort(Comparator.comparingDouble(MenuItem::getPrice));
+    }
+
+    public void sortMenuByName() {
+        menu.sort(Comparator.comparing(MenuItem::getName));
     }
 }

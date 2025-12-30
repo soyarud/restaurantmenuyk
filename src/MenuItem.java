@@ -1,3 +1,4 @@
+import java.util.Objects;
 public class MenuItem {
     // Attributes (class fields)
     private int id;
@@ -61,5 +62,23 @@ public class MenuItem {
         System.out.println("[" + id + "] " + name + " - $" + price);
         System.out.println("   " + description);
         System.out.println("   Category: " + category);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-25s $%.2f (%s)", name, price, category);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return id == menuItem.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

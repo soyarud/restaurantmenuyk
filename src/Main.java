@@ -9,16 +9,19 @@ public class Main {
 
         // 2. CREATE MENU ITEMS (creating multiple objects)
         System.out.println("\n--- Creating menu items ---");
-        MenuItem pizza = new MenuItem(1, "Margherita Pizza",
-                "Classic pizza with tomato sauce and mozzarella", 12.996, "Main");
-        MenuItem pasta = new MenuItem(2, "Spaghetti Carbonara",
-                "Pasta with eggs, cheese, and pancetta", 14.50, "Main");
-        MenuItem salad = new MenuItem(3, "Caesar Salad",
-                "Romaine lettuce with croutons and Caesar dressing", 8.75, "Appetizer");
-        MenuItem tiramisu = new MenuItem(4, "Tiramisu",
-                "Italian coffee-flavored dessert", 6.99, "Dessert");
-        MenuItem cola = new MenuItem(5, "Coca-Cola",
-                "Refreshing soft drink", 2.50, "Drink");
+        System.out.println("\n--- Creating menu items ---");
+        MenuItem pizza = new MainCourse(1, "Margherita Pizza",
+                "Classic pizza with tomato sauce and mozzarella", 12.99);
+        MenuItem pasta = new MainCourse(2, "Spaghetti Carbonara",
+                "Pasta with eggs, cheese, and pancetta", 14.50);
+        MenuItem salad = new Appetizer(3, "Caesar Salad",
+                "Romaine lettuce with croutons and Caesar dressing", 8.75);
+        MenuItem tiramisu = new Dessert(4, "Tiramisu",
+                "Italian coffee-flavored dessert", 6.99);
+        MenuItem cola = new Drink(5, "Coca-Cola",
+                "Refreshing soft drink", 2.50, false);
+        MenuItem wine = new Drink(6, "House Red Wine",
+                "Full-bodied red wine", 7.50, true);
 
         // 3. ADD ITEMS TO RESTAURANT MENU
         italianRestaurant.addMenuItem(pizza);
@@ -26,6 +29,8 @@ public class Main {
         italianRestaurant.addMenuItem(salad);
         italianRestaurant.addMenuItem(tiramisu);
         italianRestaurant.addMenuItem(cola);
+        italianRestaurant.addMenuItem(wine);
+        // REPLACED THE OLD CODE, AND NOW IT USES INHERITANCE AND POLYMORPHISM
 
         // 4. DISPLAY MENU (output to console)
         italianRestaurant.displayMenu();
@@ -101,6 +106,29 @@ public class Main {
             System.out.println("Found order #" + foundOrder.getOrderId());
             System.out.println("Total: $" + foundOrder.getTotalPrice());
         }
+
+        System.out.println("\n=== ASSIGNMENT 2 FEATURES DEMO ===");
+
+        System.out.println("Menu (using toString()):");
+        for (MenuItem item : italianRestaurant.getMenu()) {
+            System.out.println("  " + item);
+        }
+
+        System.out.println("\nDrinks only:");
+        italianRestaurant.filterByCategory("Drink")
+                .forEach(item -> System.out.println("  " + item));
+
+        System.out.println("\nItems ≤ $10:");
+        italianRestaurant.filterByMaxPrice(10.00)
+                .forEach(item -> System.out.println("  " + item));
+
+        System.out.println("\nSearch 'pizza':");
+        italianRestaurant.searchByName("pizza")
+                .forEach(item -> System.out.println("  " + item));
+
+        italianRestaurant.sortMenuByPrice();
+        System.out.println("\nMenu sorted by price:");
+        italianRestaurant.displayMenu();
 
         // 13. FINAL SUMMARY
         System.out.println("\n=== FINAL SUMMARY ===");
