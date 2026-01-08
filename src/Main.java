@@ -136,5 +136,32 @@ public class Main {
         System.out.println("Menu items: " + italianRestaurant.getMenu().size());
         System.out.println("Active orders: " + italianRestaurant.getOrders().size());
         System.out.println("\n=== SYSTEM READY ===");
+
+
+        System.out.println("\n=== ASSIGNMENT 3: DATABASE DEMONSTRATION ===");
+
+        DatabaseManager db = new DatabaseManager();
+
+        // 1. Insert some menu items into DB
+        db.insertMenuItem("Margherita Pizza", "Classic pizza with tomato and mozzarella", 12.99, "Main");
+        db.insertMenuItem("Coca-Cola", "Refreshing soft drink", 2.50, "Drink");
+        db.insertMenuItem("Tiramisu", "Italian coffee-flavored dessert", 6.99, "Dessert");
+
+        // 2. Read and display all items from DB
+        db.readMenuItems();
+
+        // 3. Update price
+        db.updateMenuItemPrice("Margherita Pizza", 14.99);
+
+        // 4. Read again to see change
+        db.readMenuItems();
+
+        // 5. Delete one item
+        db.deleteMenuItem("Coca-Cola");
+
+        // 6. Final read
+        db.readMenuItems();
+
+        System.out.println("\n=== DATABASE OPERATIONS COMPLETED ===");
     }
 }
