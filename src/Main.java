@@ -163,5 +163,40 @@ public class Main {
         db.readMenuItems();
 
         System.out.println("\n=== DATABASE OPERATIONS COMPLETED ===");
+
+
+
+        System.out.println("\n=== DATABASE RESET FOR 4TH ASSIGNMENT ===");
+
+        // 1. WIPE THE SLATE CLEAN (This deletes all old/bad data)
+        System.out.println("Recreating tables...");
+        db.recreateTables();
+
+        // 2. INSERT CLEAN, PROFESSIONAL DATA
+        System.out.println("Inserting fresh menu items...");
+
+        // Main Courses
+        db.insertMenuItem("Margherita pizza", "most popular pizza with pomidors", 12.99, "Main");
+        db.insertMenuItem("Carbonara pasta", "spaghetti yk yk", 14.50, "Main");
+        db.insertMenuItem("Grilled salmon", "salmon from Balkhash", 18.99, "Main");
+
+        // Appetizers
+        db.insertMenuItem("Oliv'e", "kolbasa, egg, cucumber, mayonez", 6.50, "Appetizer");
+        db.insertMenuItem("Caesar salad", "imagine: you died to become a salad", 8.99, "Appetizer");
+
+        // Desserts
+        db.insertMenuItem("Tiramisu", "tiramisu lol", 7.50, "Dessert");
+        db.insertMenuItem("Cheesecake", "cheese and cake", 6.50, "Dessert");
+
+        // Drinks
+        db.insertMenuItem("Koka kola", "it's not a coca-cola", 2.50, "Drink");
+        db.insertMenuItem("Red wine", "100 years wine lol", 1000.00, "Drink");
+        db.insertMenuItem("Botol of woter", "woter", 1.00, "Drink");
+
+        // 3. VERIFY
+        System.out.println("\nCurrent Database Content:");
+        db.readMenuItems();
+
+        System.out.println("=== DATA RESET COMPLETE ===");
     }
 }
