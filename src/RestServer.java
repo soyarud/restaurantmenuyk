@@ -31,28 +31,65 @@ public class RestServer {
         server.start();
     }
 
-    // this class handles the request when someone visits /api/menu
     static class MenuHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            // 1. only get request
-            if ("GET".equals(exchange.getRequestMethod())) {
+            String method = exchange.getRequestMethod();
 
-                // 2. fetching data from db lol
+            if ("GET".equals(method)) {
+                // response: sending db data as json
                 List<MenuItem> menuItems = getMenuItemsFromDb();
-
-                // 3. converting list to json
                 String jsonResponse = convertToJson(menuItems);
+                sendResponse(exchange, jsonResponse, 200);
 
-                // 4. sending response in json
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
-                exchange.sendResponseHeaders(200, jsonResponse.length());
-                OutputStream os = exchange.getResponseBody();
-                os.write(jsonResponse.getBytes());
-                os.close();
+            } else if ("POST".equals(method)) {
+                // request: getting json from user to add item
+                java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
+                String body = s.hasNext() ? s.next() : "";
+
+                try {
+                    // simple parsing logic
+                    String name = extractValue(body, "name");
+                    String desc = extractValue(body, "description");
+                    double price = Double.parseDouble(extractValue(body, "price"));
+                    String cat = extractValue(body, "category");
+
+                    // inserting to db using your manager logic
+                    DatabaseManager db = new DatabaseManager();
+                    db.insertMenuItem(name, desc, price, cat);
+
+                    sendResponse(exchange, "{\"status\":\"added\"}", 201);
+                } catch (Exception e) {
+                    sendResponse(exchange, "{\"status\":\"error\"}", 400);
+                }
             } else {
                 exchange.sendResponseHeaders(405, -1);
             }
+        }
+
+        // helper to send json back
+        private void sendResponse(HttpExchange exchange, String response, int code) throws IOException {
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(code, response.length());
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+
+        // simple logic to grab values from the json string
+        private String extractValue(String json, String key) {
+            String pattern = "\"" + key + "\":\"";
+            int start = json.indexOf(pattern);
+            if (start == -1) { // for numbers (no quotes)
+                pattern = "\"" + key + "\":";
+                start = json.indexOf(pattern) + pattern.length();
+                int end = json.indexOf(",", start);
+                if (end == -1) end = json.indexOf("}", start);
+                return json.substring(start, end).trim();
+            }
+            start += pattern.length();
+            int end = json.indexOf("\"", start);
+            return json.substring(start, end);
         }
     }
 
